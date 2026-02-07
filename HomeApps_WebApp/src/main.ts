@@ -1,12 +1,23 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
-import App from './App.vue'
-import router from './router'
+import Toast, { type PluginOptions, POSITION } from 'vue-toastification';
 
-const app = createApp(App)
+import App from './App.vue';
+import router from './router';
 
-app.use(createPinia())
-app.use(router)
+const app = createApp(App);
 
-app.mount('#app')
+const options: PluginOptions = {
+  position: POSITION.BOTTOM_RIGHT,
+  timeout: 2000,
+  closeOnClick: true,
+  pauseOnHover: true,
+};
+
+app.use(createPinia());
+app.use(router);
+
+app.use(Toast, options);
+
+app.mount('#app');

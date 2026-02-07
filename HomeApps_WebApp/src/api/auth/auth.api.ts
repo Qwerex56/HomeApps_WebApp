@@ -1,24 +1,27 @@
+import type { AxiosResponse } from "axios";
 import instance from "../instance";
+import type { LoginResponse, LogoutResponse, RefreshSessionResponse } from "../repsonseTypes/auth.response";
 
-export const loginRequest = async (email: string, password: string) => {
-  const data = await instance.post('Login/login', {
+export const loginRequest = async (email: string, password: string) : Promise<AxiosResponse<LoginResponse>> => {
+  const data = instance
+  .post('Login/Login', {
     Email: email,
-    Password: password
-  }).then(response => response.data);
+    Password: password,
+  });
 
   return data;
-}
+};
 
-export const logoutRequest = async () => {
-  return await instance
-    .get('Login/logout')
-    .then(response => response.data);
-}
+export const logoutRequest = async () : Promise<AxiosResponse<LogoutResponse>> => {
+  const data = instance
+    .get('Login/logout');
 
-export const refreshSessionRequest = async () => {
-  const data = await instance
-    .get('Login/refresh')
-    .then(response => response.data);
+  return data;
+};
+
+export const refreshSessionRequest = async () : Promise<AxiosResponse<RefreshSessionResponse>> => {
+  const data = instance
+    .get('Login/refresh');
 
   return data;
 };

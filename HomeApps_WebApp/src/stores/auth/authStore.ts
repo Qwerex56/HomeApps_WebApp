@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { loginRequest, logoutRequest, refreshSessionRequest } from "@/api/auth/auth.api";
+import { useUserStore } from "@/stores/user/userStore";
 
 import { jwtDecode } from "jwt-decode";
 
@@ -14,7 +15,9 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(email: string, password: string) {
-      const { token } = await loginRequest(email, password);
+      const response = await loginRequest(email, password);
+
+      const { token } = response.data;
       this.setToken(token);
 
       const decodedToken = jwtDecode(token);
@@ -32,7 +35,9 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async refreshSession() {
-      const { token } = await refreshSessionRequest();
+      const response = await refreshSessionRequest();
+
+      const { token } = response.data;
       this.setToken(token);
 
       const decodedToken = jwtDecode(token);
@@ -40,8 +45,8 @@ export const useAuthStore = defineStore('auth', {
     },
 
     setToken(token: string) {
-      this.token = token;
       localStorage.setItem('token', token);
+      this.token = token;
     },
 
     setRole(decodedToken: unknown) {
@@ -50,8 +55,8 @@ export const useAuthStore = defineStore('auth', {
     },
 
     setInvalidateSession() {
-      this.$reset();
       localStorage.removeItem('token');
+      this.$reset();
     }
   },
 

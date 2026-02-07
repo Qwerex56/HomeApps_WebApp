@@ -4,10 +4,17 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_API_VER}`,
   timeout: import.meta.env.VITE_API_TIMEOUT,
-  headers: {
-    'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
-  },
   withCredentials: true,
+});
+
+instance.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  return config;
 });
 
 instance.interceptors.response.use(undefined, async error => {

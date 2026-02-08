@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { loginRequest, logoutRequest, refreshSessionRequest } from "@/api/auth/auth.api";
-import { useUserStore } from "@/stores/user/userStore";
 
 import { jwtDecode } from "jwt-decode";
 

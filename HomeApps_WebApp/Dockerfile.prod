@@ -9,5 +9,11 @@ COPY . .
 
 RUN npm run build
 
+COPY env.sh /docker-entrypoint.d/env.sh
+RUN dos2unix /docker-entrypoint.d/env.sh
+RUN chmod +x /docker-entrypoint.d/env.sh
+
 EXPOSE 3000
+
+ENTRYPOINT [ "/docker-entrypoint.d/env.sh" ]
 CMD [ "serve", "-s", "dist" ]

@@ -17,9 +17,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  preview: {
+    port: 8080,
+    strictPort: true
+  },
   server: {
-    watch: {
-      usePolling: true,
-    }
+    port: 8080,
+    strictPort: true,
+    host: true,
+    origin: 'http://localhost:8080'
   }
 })
